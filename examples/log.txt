@@ -1,0 +1,82 @@
+Enter a message to hash and sign (blank uses "transfer 25 tokens to alice"): Transfer 10000 tokens to Clara
+crypto-lab interactive run
+Started at: 2026-04-27T18:40:37.482Z
+Selected message: Transfer 10000 tokens to Clara
+
+1. Message hash
+{
+  message: 'Transfer 10000 tokens to Clara',
+  digest: 'b3a71f19de591adb93b643bd9b6c4572f0aebac281062178afcb18600dc5eee0'
+}
+
+2. Merkle proof of inclusion
+{
+  root: '0edea23c0937867651849bdf287beecf10952adbd5ad4f599110fc8539dec81f',
+  item: 'Transfer 10000 tokens to Clara',
+  proof: [
+    {
+      position: 'left',
+      hash: '1c9a9e485b542887caef930d342299bb8799b88fb5a8ac6373fdf09831f805d2'
+    },
+    {
+      position: 'right',
+      hash: 'f53edc572ad7e2c56c5999587f3214c2afb290a8cb271a61758840919d5537a9'
+    }
+  ],
+  verified: true
+}
+
+3. Digital signature
+{
+  publicKey: '-----BEGIN PUBLIC KEY-----\n' +
+    'MCowBQYDK2VwAyEAdFWkaiDXLJgwXpGt8TOSWVYQnEvuT7pZf1m5JBmW/pE=\n' +
+    '-----END PUBLIC KEY-----\n',
+  signature: 'yarIW2uFrjlqKqL/ovl1bpyw3N0VoE3EUW5TEJo9YMMEmCgYxalaIazeC2SjL0/gaT4Ip8ZBu58/ri+p6tC6Ag==',
+  verified: true
+}
+
+4. Replay attack against signature-only command
+{
+  command: {
+    message: 'Transfer 10000 tokens to Clara',
+    signature: 'yarIW2uFrjlqKqL/ovl1bpyw3N0VoE3EUW5TEJo9YMMEmCgYxalaIazeC2SjL0/gaT4Ip8ZBu58/ri+p6tC6Ag=='
+  },
+  firstAttempt: {
+    accepted: true,
+    reason: 'signature-valid'
+  },
+  replayAttempt: {
+    accepted: true,
+    reason: 'signature-valid'
+  },
+  executionCount: 2
+}
+
+5. Replay fix with nonce and domain separation
+{
+  command: {
+    payload: {
+      domain: 'crypto-lab/transfer/v1',
+      nonce: 'nonce-0001',
+      action: 'transfer',
+      to: 'alice',
+      amount: 25
+    },
+    signature: 'VAC2sCqgnwplFY6QXraEFr5U9vaqxrEkbMWi7vkQ4xVWlWD948+oQGPXoZmnFdQEWno/U7G0h5EWpX9q1kijCA=='
+  },
+  firstAttempt: {
+    accepted: true,
+    reason: 'authorized-once'
+  },
+  replayAttempt: {
+    accepted: false,
+    reason: 'nonce-already-used'
+  },
+  crossDomainAttempt: {
+    accepted: false,
+    reason: 'wrong-domain'
+  },
+  executionCount: 1
+}
+
+Log saved to: D:\***\crypto-lab\examples\log.txt

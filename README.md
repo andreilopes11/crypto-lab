@@ -57,10 +57,27 @@ flowchart LR
 
 ```bash
 npm test
-npm run demo
+npm --silent start
 ```
 
-No external packages are required.
+When you run `npm --silent start`, the terminal asks for a message. The lab
+uses that message for hashing, Merkle inclusion, signing, replay simulation,
+and the nonce/domain-separation fix.
+
+The same output printed in the terminal is saved to:
+
+```text
+examples/log.txt
+```
+
+You can also pipe a message without using the interactive prompt:
+
+```bash
+printf "transfer 25 tokens to alice\n" | npm --silent start
+```
+
+No external packages are required. `npm run demo` is kept as an alias for the
+same interactive flow.
 
 ## Core Pieces
 
